@@ -1,2 +1,2 @@
 # switchGPU
-Small GPU switcher for qemu
+Small GPU switcher for vfio 
