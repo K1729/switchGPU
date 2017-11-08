@@ -1,11 +1,10 @@
 #!/bin/bash
 
-libvritdState=0
-displayM="sddm" # Display manager
+libvirtdState=0
 
 # Get service status
 getStatus() {
-  status=$( systemctl status $1.service|grep inactive )
+  status=$( systemctl status $@.service|grep inactive )
   if [[ $status == "" ]]; then
     echo 1
   else
@@ -13,14 +12,8 @@ getStatus() {
   fi
 }
 
-if [[ $(getStatus $libvirtd) == 1 ]]; then # Check if libvirtd is running
-  echo "Stopping libvirtd... "
-  systemctl stop libvirtd.service
-  while [[ $(getStatus libvirtd) == 1 ]]; do
-    sleep 1s
-  done
+if [[ $(getStatus "libvirtd") == 1 ]]; then
   libvirtdState=1
-  echo "done."
 fi
 
-echo "status: " $( getStatus $displayM )
+echo "status: " $libvirtdState

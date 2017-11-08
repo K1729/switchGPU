@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Initialising necessary variables
-libvritdState=0
+libvirtdState=0
 displayM="sddm" # Display manager
 Vdevice="0000:01:00.0" # Graphics card
 Adevice="0000:01:00.1" # Built in audio device
@@ -17,31 +17,31 @@ getStatus() {
 	fi
 }
 
-if [[ $(getStatus libvirtd) == 1 ]]; then # Check if libvirtd is running
+if [[ $(getStatus "libvirtd") == 1 ]]; then # Check if libvirtd is running
 	echo "Stopping libvirtd... "
-	#systemctl stop libvirtd.service
-	#while [[ $(getStatus libvirtd) == 1 ]]; do
-	#	sleep 1s
-	#done
+	systemctl stop libvirtd.service
+	while [[ $(getStatus libvirtd) == 1 ]]; do
+		sleep 1s
+	done
 	libvirtdState=1
 	echo "done."
 fi
 
 if [[ $(getStatus $displayM) == 1 ]]; then # Check if Display manager is running
 	echo "Stopping $displayM... "
-	#systemctl stop $displayM.service
-	#while [[ $(getStatus $displayM) == 1 ]]; do
-	#	sleep 1s
-	#done
+	systemctl stop $displayM.service
+	while [[ $(getStatus $displayM) == 1 ]]; do
+		sleep 1s
+	done
 	echo "done."
 fi
 
 echo "Switching GPU... "
 if [[ $libvirtdState != 0 ]]; then
-	echo "value 1"
+	echo "value:" $libvirtdState
 	#sudo -i source $pwd/vfio-unbind.sh $Vdevice $Adevice
 else
-	echo "value 0"
+	echo "value:" $libvirtdState
 	#sudo -i source $pwd/vfio-bind.sh $Vdevice $Adevice
 fi
 echo "done"
