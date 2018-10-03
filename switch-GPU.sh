@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# TODO Remove "globals"
 # Initialising necessary variables
 libvirtdState=0
 displayM="sddm" # Display manager
